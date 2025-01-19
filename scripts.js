@@ -2,6 +2,7 @@ let timerInterval;
 let isPaused = false;
 let totalSeconds = 0;
 let initialTime = "";
+let ringtone;
 
 document.getElementById("start-btn").addEventListener("click", function () {
     const startBtn = document.getElementById("start-btn");
@@ -63,4 +64,31 @@ function startTimer() {
             timerDisplay.textContent = `${h}:${m}:${s}`;
         }
     }, 1000);
+}
+
+document.getElementById("stop-btn").addEventListener("click", function () {
+    clearInterval(timerInterval);
+    stopRingtone();
+})
+
+function playRingtone() {
+    if (!ringtone) {
+        ringtone = new Audio("./royalty_free_cancer.mp3");
+    }
+
+    ringtone.loop = true;
+    ringtone.play();
+
+    setTimeout(() => {
+        if (confirm("Time's up! Stop the Ringtone?")) {
+            stopRingtone();
+        }
+    }, 100);
+}
+
+function stopRingtone() {
+    if (ringtone) {
+        ringtone.pause();
+        ringtone.currentTime = 0;
+    }
 }
